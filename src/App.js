@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import { publicRoutes } from "./routes";
+import Footer from "./components/Footer";
 
 function App() {
+  const appContentStyle = {
+    width: "100%",
+    height: "100vh",
+    overflowY: "scroll",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App" style={{ display: "flex", flexDirection: "row" }}>
+        <Sidebar />
+        <div style={appContentStyle}>
+          <div className="container">
+            <Routes>
+              {publicRoutes.map((route, index) => {
+                const Page = route.component;
+                return (
+                  <Route key={index} path={route.path} element={<Page />} />
+                );
+              })}
+            </Routes>
+          </div>
+          <Footer />
+        </div>
+      </div>
+    </Router>
   );
 }
 
